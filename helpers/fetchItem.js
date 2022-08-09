@@ -1,6 +1,6 @@
-const fetchItem = (MLB1615760527) => {
+const fetchItem = (item) => {
   // seu código aqui
-  const url = `https://api.mercadolibre.com/items/${MLB1615760527}`;
+  const url = `https://api.mercadolibre.com/items/${item}`;
   return fetch(url)
     .then((resposta) => resposta.json())
     .then((data) => data);

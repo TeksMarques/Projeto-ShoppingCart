@@ -19,24 +19,26 @@ const createProductItemElement = ({ sku, name, image }) => {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  const botao = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  botao.addEventListener('click', addCarinho);
+  section.appendChild(botao);
   return section;
 };
 
-// const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
+const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
-// const cartItemClickListener = (event) => {
-//   // coloque seu código aqu
-// };
+const cartItemClickListener = (event) => {
+  // coloque seu código aqui
+  event.target.remove();
+};
 
-// const createCartItemElement = ({ sku, name, salePrice }) => {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// };
+const createCartItemElement = ({ sku, name, salePrice }) => {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+};
 
 const produtos = async () => {
   const objeto = await fetchProducts('computador');
@@ -49,6 +51,14 @@ const produtos = async () => {
   });
 };
 
+const addCarinho = async (event) => {
+ const id = await getSkuFromProductItem(event.target.parentElement);
+ const result = await fetchItem(id);
+ const resultDes = ({ sku: result.id, name: result.title, salePrice: result.price });
+ const item = createCartItemElement(resultDes);
+ const carrinho = document.querySelector('.cart__items');
+ carrinho.appendChild(item);
+};
 window.onload = () => {
   produtos();
  };

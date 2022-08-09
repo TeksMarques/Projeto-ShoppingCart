@@ -1,5 +1,5 @@
-const saveCartItems = () => {
-  // seu código aqui
+const saveCartItems = (itens) => {
+  // seu código aqui  
 };
 
 if (typeof module !== 'undefined') {
